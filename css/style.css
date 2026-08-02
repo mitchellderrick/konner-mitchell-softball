@@ -1,0 +1,49 @@
+/* ===========================
+   Konner Mitchell Softball
+=========================== */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+.navbar {
+    background: #0b1f3a !important;
+}
+
+.hero {
+    background: linear-gradient(rgba(11,31,58,.75), rgba(11,31,58,.75)),
+                url("../images/hero.jpg");
+    background-size: cover;
+    background-position: center;
+    min-height: 80vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 800;
+}
+
+.hero h2 {
+    color: #ffd54f;
+}
+
+.btn-softball {
+    background: #f5b400;
+    color: #0b1f3a;
+    font-weight: bold;
+    border-radius: 50px;
+    padding: 12px 30px;
+}
+
+.btn-softball:hover {
+    background: #ffc107;
+}
