@@ -1,6 +1,7 @@
-// ====================================
-// Konner Mitchell Softball Website
-// Main JavaScript File
-// ====================================
+document.addEventListener("DOMContentLoaded", function () {
+    const yearElement = document.getElementById("currentYear");
 
-console.log("Konner Mitchell Softball website loaded.");
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+});
