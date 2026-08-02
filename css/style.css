@@ -1,49 +1,251 @@
-/* ===========================
-   Konner Mitchell Softball
-=========================== */
+:root {
+    --navy: #071a33;
+    --navy-light: #12345b;
+    --gold: #f5b800;
+    --gold-light: #ffd45a;
+    --white: #ffffff;
+    --light: #f4f7fb;
+    --text: #1f2937;
+    --muted: #667085;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
 
 body {
+    margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: #f4f7fb;
-    color: #222;
+    background: var(--white);
+    color: var(--text);
 }
 
 .navbar {
-    background: #0b1f3a !important;
+    background: var(--navy);
+    padding: 16px 0;
+}
+
+.navbar-brand {
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.82) !important;
+    font-weight: 600;
+    margin-left: 12px;
+}
+
+.nav-link:hover {
+    color: var(--gold) !important;
 }
 
 .hero {
-    background: linear-gradient(rgba(11,31,58,.75), rgba(11,31,58,.75)),
-                url("../images/hero.jpg");
-    background-size: cover;
-    background-position: center;
-    min-height: 80vh;
-
+    min-height: 78vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-
-    color: white;
     text-align: center;
+    color: var(--white);
+    background:
+        linear-gradient(
+            rgba(7, 26, 51, 0.88),
+            rgba(7, 26, 51, 0.78)
+        ),
+        radial-gradient(
+            circle at top right,
+            var(--navy-light),
+            var(--navy)
+        );
+    padding: 90px 20px;
+}
+
+.hero-label,
+.section-label {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin-bottom: 12px;
 }
 
 .hero h1 {
-    font-size: 4rem;
-    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    margin-bottom: 12px;
 }
 
 .hero h2 {
-    color: #ffd54f;
+    color: var(--gold-light);
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    margin-bottom: 24px;
+}
+
+.hero-summary {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 32px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
 }
 
 .btn-softball {
-    background: #f5b400;
-    color: #0b1f3a;
-    font-weight: bold;
+    background: var(--gold);
+    color: var(--navy);
+    border: 2px solid var(--gold);
     border-radius: 50px;
-    padding: 12px 30px;
+    padding: 12px 28px;
+    font-weight: 800;
 }
 
 .btn-softball:hover {
-    background: #ffc107;
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+    color: var(--navy);
+}
+
+.btn-outline-light {
+    border-radius: 50px;
+    padding: 12px 28px;
+    font-weight: 700;
+}
+
+.section {
+    padding: 90px 0;
+}
+
+.section-light {
+    background: var(--light);
+}
+
+.section-dark {
+    background: var(--navy);
+    color: var(--white);
+}
+
+.section-heading {
+    max-width: 760px;
+    margin: 0 auto 45px;
+    text-align: center;
+}
+
+.section-heading h2 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    margin-bottom: 16px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 1.08rem;
+}
+
+.section-dark .section-heading p {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.profile-card,
+.stat-card,
+.coming-soon-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 28px;
+    height: 100%;
+    box-shadow: 0 12px 35px rgba(7, 26, 51, 0.08);
+    border-top: 4px solid var(--gold);
+}
+
+.profile-card span,
+.stat-card span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.92rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.profile-card strong {
+    display: block;
+    color: var(--navy);
+    font-size: 1.2rem;
+}
+
+.stat-card strong {
+    display: block;
+    color: var(--navy);
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+}
+
+.coming-soon-card {
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.coming-soon-card h3 {
+    color: var(--navy);
+    font-weight: 800;
+}
+
+.video-placeholder {
+    max-width: 850px;
+    min-height: 350px;
+    margin: 0 auto;
+    border: 2px dashed rgba(255, 255, 255, 0.35);
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    text-align: center;
+    padding: 30px;
+}
+
+.play-symbol {
+    width: 82px;
+    height: 82px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 2rem;
+    margin-bottom: 24px;
+}
+
+footer {
+    background: #041123;
+    color: rgba(255, 255, 255, 0.75);
+    text-align: center;
+    padding: 25px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        min-height: 70vh;
+        padding: 75px 18px;
+    }
+
+    .section {
+        padding: 70px 18px;
+    }
+
+    .nav-link {
+        margin-left: 0;
+        padding-top: 12px;
+    }
 }
