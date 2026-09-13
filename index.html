@@ -51,7 +51,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#schedule">Schedule</a>
+                        <a class="nav-link" href="#schedule">Games</a>
                     </li>
 
                     <li class="nav-item">
@@ -102,6 +102,11 @@
                         This profile will continue to grow as new information,
                         statistics, photos, and videos become available.
                     </p>
+                </div>
+
+                <div class="profile-photo-wrap">
+                    <img id="profilePhoto" src="images/konner-profile.jpg" alt="Konner Mitchell softball profile photo" hidden>
+                    <div id="profilePhotoPlaceholder" class="profile-photo-placeholder" aria-label="Profile photo coming soon">KM</div>
                 </div>
 
                 <div class="row g-4">
@@ -177,60 +182,35 @@
             <div class="container">
                 <div class="section-heading">
                     <p class="section-label">Performance</p>
-                    <h2>Statistics</h2>
-                    <p>
-                        Season and career statistics will be added here as they
-                        become available.
-                    </p>
+                    <h2>Live Season Statistics</h2>
+                    <p id="statsStatus">Loading the latest totals from Konner's game tracker…</p>
                 </div>
 
-                <div class="row g-4 text-center">
-
-                    <div class="col-6 col-lg-3">
-                        <div class="stat-card">
-                            <strong>Coming Soon</strong>
-                            <span>ERA</span>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-lg-3">
-                        <div class="stat-card">
-                            <strong>Coming Soon</strong>
-                            <span>Strikeouts</span>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-lg-3">
-                        <div class="stat-card">
-                            <strong>Coming Soon</strong>
-                            <span>Innings Pitched</span>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-lg-3">
-                        <div class="stat-card">
-                            <strong>Coming Soon</strong>
-                            <span>Pitch Velocity</span>
-                        </div>
-                    </div>
-
+                <div class="record-card" aria-label="Team record">
+                    <div><strong id="recordWins">—</strong><span>Wins</span></div>
+                    <div><strong id="recordLosses">—</strong><span>Losses</span></div>
+                    <div><strong id="recordTies">—</strong><span>Ties</span></div>
                 </div>
+
+                <h3 class="stats-group-title">Hitting</h3>
+                <div id="hittingStats" class="stats-grid" aria-live="polite"></div>
+
+                <h3 class="stats-group-title">Pitching</h3>
+                <div id="pitchingStats" class="stats-grid" aria-live="polite"></div>
             </div>
         </section>
 
         <section id="schedule" class="section">
             <div class="container">
                 <div class="section-heading">
-                    <p class="section-label">Upcoming Games</p>
-                    <h2>Schedule</h2>
+                    <p class="section-label">Game Log</p>
+                    <h2>Scores and Game Statistics</h2>
+                    <p>Final scores and Konner's individual stats update from the game tracker.</p>
                 </div>
 
-                <div class="coming-soon-card">
-                    <h3>Schedule Coming Soon</h3>
-                    <p>
-                        Games, tournaments, locations, and start times will be
-                        added here.
-                    </p>
+                <div id="liveGame" class="live-game" hidden></div>
+                <div id="gameHistory" class="game-history" aria-live="polite">
+                    <div class="coming-soon-card"><p>Loading games…</p></div>
                 </div>
             </div>
         </section>
