@@ -6,7 +6,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     setupProfilePhoto();
+    const saved = localStorage.getItem("konnerTrackerSnapshot");
+    if (saved) {
+        try { renderTrackerData(JSON.parse(saved), true); } catch { localStorage.removeItem("konnerTrackerSnapshot"); }
+    }
     loadTrackerData();
+    window.setInterval(loadTrackerData, 5000);
 });
 
 const TRACKER_ROOT = "https://konner-softball-tracker.mitchelld659724.chatgpt.site";
@@ -113,37 +118,43 @@ function makeGameCard(game) {
     return card;
 }
 
+function renderTrackerData(data, fromCache) {
+    document.getElementById("recordWins").textContent = data.record.wins;
+    document.getElementById("recordLosses").textContent = data.record.losses;
+    document.getElementById("recordTies").textContent = data.record.ties;
+    renderStats("hittingStats", data.season.hitting, statLabels.hitting);
+    renderStats("pitchingStats", data.season.pitching, statLabels.pitching);
+
+    const live = data.games.find(game => game.status === "live");
+    const liveContainer = document.getElementById("liveGame");
+    liveContainer.hidden = !live;
+    liveContainer.replaceChildren();
+    if (live) {
+        const label = document.createElement("strong");
+        label.textContent = "LIVE GAME";
+        const line = document.createElement("div");
+        line.textContent = `Konner's Team ${live.score.our} – ${live.score.opponent} ${live.opponent}`;
+        liveContainer.append(label, line);
+    }
+
+    const completedGames = data.games.filter(game => game.status === "final");
+    const history = document.getElementById("gameHistory");
+    history.replaceChildren(...(completedGames.length ? completedGames.map(makeGameCard) : [makeStatCard("No completed games yet", "Game history will appear here")]));
+    document.getElementById("statsStatus").textContent = fromCache
+        ? "Showing the latest saved totals while checking for updates…"
+        : `Live from the game tracker • ${new Date(data.updatedAt).toLocaleString()}`;
+}
+
 async function loadTrackerData() {
     const status = document.getElementById("statsStatus");
     try {
-        const response = await fetch(TRACKER_FEED, { cache: "no-store" });
+        const response = await fetch(TRACKER_FEED + "?v=" + Date.now(), { cache: "no-store" });
         if (!response.ok) throw new Error("Tracker unavailable");
         const data = await response.json();
-
-        document.getElementById("recordWins").textContent = data.record.wins;
-        document.getElementById("recordLosses").textContent = data.record.losses;
-        document.getElementById("recordTies").textContent = data.record.ties;
-        renderStats("hittingStats", data.season.hitting, statLabels.hitting);
-        renderStats("pitchingStats", data.season.pitching, statLabels.pitching);
-
-        const live = data.games.find(game => game.status === "live");
-        const liveContainer = document.getElementById("liveGame");
-        if (live) {
-            liveContainer.hidden = false;
-            liveContainer.replaceChildren();
-            const label = document.createElement("strong");
-            label.textContent = "LIVE GAME";
-            const line = document.createElement("div");
-            line.textContent = `Konner's Team ${live.score.our} – ${live.score.opponent} ${live.opponent}`;
-            liveContainer.append(label, line);
-        }
-
-        const completedGames = data.games.filter(game => game.status === "final");
-        const history = document.getElementById("gameHistory");
-        history.replaceChildren(...(completedGames.length ? completedGames.map(makeGameCard) : [makeStatCard("No completed games yet", "Game history will appear here") ]));
-        status.textContent = `Updated automatically from the game tracker • ${new Date(data.updatedAt).toLocaleString()}`;
+        localStorage.setItem("konnerTrackerSnapshot", JSON.stringify(data));
+        renderTrackerData(data, false);
     } catch {
-        status.textContent = "Live statistics are temporarily unavailable. Please check again shortly.";
-        document.getElementById("gameHistory").textContent = "Game results are temporarily unavailable.";
+        if (localStorage.getItem("konnerTrackerSnapshot")) status.textContent = "Showing the latest saved totals. Live update will retry automatically.";
+        else status.textContent = "Showing the latest saved totals. Live update will retry automatically.";
     }
 }
