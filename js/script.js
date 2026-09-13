@@ -58,7 +58,7 @@ function setupProfilePhoto() {
 
 const statLabels = {
     hitting: [["battingAverage", "Batting Average"], ["hits", "Hits"], ["singles", "Singles"], ["doubles", "Doubles"], ["triples", "Triples"], ["homeRuns", "Home Runs"], ["walks", "Walks"], ["strikeouts", "Strikeouts"], ["outs", "Other Outs"], ["fouls", "Fouls"], ["plateAppearances", "Plate Appearances"]],
-    pitching: [["strikeoutsPerGame", "Strikeouts / Game"], ["strikePercentage", "Strike Percentage"], ["pitches", "Pitches"], ["strikes", "Strikes"], ["balls", "Balls"], ["strikeouts", "Strikeouts"], ["walks", "Walks"], ["hitsAllowed", "Hits Allowed"], ["outs", "Outs"]]
+    pitching: [["strikePercentage", "Strike Percentage"], ["pitches", "Pitches"], ["strikes", "Strikes"], ["balls", "Balls"], ["strikeouts", "Batters Struck Out"], ["walks", "Walks"], ["hitsAllowed", "Hits Allowed"], ["outs", "Outs"]]
 };
 
 function makeStatCard(value, label) {
@@ -124,11 +124,9 @@ function renderTrackerData(data, fromCache) {
     document.getElementById("recordTies").textContent = data.record.ties;
     const atBats = data.season.hitting.hits + data.season.hitting.strikeouts + data.season.hitting.outs;
     const battingAverage = atBats ? (data.season.hitting.hits / atBats).toFixed(3).replace(/^0/, "") : ".000";
-    const pitchingGames = data.games.filter(game => game.pitching && game.pitching.pitches > 0).length;
-    const strikeoutsPerGame = pitchingGames ? (data.season.pitching.strikeouts / pitchingGames).toFixed(1) : "0.0";
     const strikePercentage = data.season.pitching.pitches ? (data.season.pitching.strikes / data.season.pitching.pitches * 100).toFixed(1) + "%" : "0.0%";
     renderStats("hittingStats", { ...data.season.hitting, battingAverage }, statLabels.hitting);
-    renderStats("pitchingStats", { ...data.season.pitching, strikeoutsPerGame, strikePercentage }, statLabels.pitching);
+    renderStats("pitchingStats", { ...data.season.pitching, strikePercentage }, statLabels.pitching);
 
     const live = data.games.find(game => game.status === "live");
     const liveContainer = document.getElementById("liveGame");
