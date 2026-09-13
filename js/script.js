@@ -5,19 +5,51 @@ document.addEventListener("DOMContentLoaded", function () {
         yearElement.textContent = new Date().getFullYear();
     }
 
-    const profilePhoto = document.getElementById("profilePhoto");
-    const profilePlaceholder = document.getElementById("profilePhotoPlaceholder");
-    if (profilePhoto && profilePlaceholder) {
-        profilePhoto.addEventListener("load", function () {
-            profilePhoto.hidden = false;
-            profilePlaceholder.hidden = true;
-        });
-    }
-
+    setupProfilePhoto();
     loadTrackerData();
 });
 
-const TRACKER_FEED = "https://konner-softball-tracker.mitchelld659724.chatgpt.site/api/public-stats";
+const TRACKER_ROOT = "https://konner-softball-tracker.mitchelld659724.chatgpt.site";
+const TRACKER_FEED = TRACKER_ROOT + "/api/public-stats";
+const PROFILE_PHOTO = TRACKER_ROOT + "/api/profile-photo";
+
+function setupProfilePhoto() {
+    const photo = document.getElementById("profilePhoto");
+    const placeholder = document.getElementById("profilePhotoPlaceholder");
+    const button = document.getElementById("changePhotoButton");
+    const input = document.getElementById("photoFile");
+    const message = document.getElementById("photoMessage");
+
+    function showLatestPhoto() {
+        photo.onload = function () { photo.hidden = false; placeholder.hidden = true; };
+        photo.onerror = function () { photo.hidden = true; placeholder.hidden = false; };
+        photo.src = PROFILE_PHOTO + "?v=" + Date.now();
+    }
+
+    showLatestPhoto();
+    button.addEventListener("click", function () { input.click(); });
+    input.addEventListener("change", async function () {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { message.textContent = "Please choose a photo smaller than 5 MB."; return; }
+        const pin = window.prompt("Enter the family PIN to change Konner’s photo:");
+        if (pin === null) { input.value = ""; return; }
+        button.disabled = true;
+        message.textContent = "Uploading photo…";
+        try {
+            const response = await fetch(PROFILE_PHOTO, { method: "POST", headers: { "content-type": file.type, "x-photo-pin": pin }, body: file });
+            const result = await response.json().catch(function () { return {}; });
+            if (!response.ok) throw new Error(result.error || "Photo upload failed");
+            message.textContent = "Profile photo updated.";
+            showLatestPhoto();
+        } catch (error) {
+            message.textContent = error.message || "Photo upload failed. Please try again.";
+        } finally {
+            button.disabled = false;
+            input.value = "";
+        }
+    });
+}
 
 const statLabels = {
     hitting: [["hits", "Hits"], ["singles", "Singles"], ["doubles", "Doubles"], ["triples", "Triples"], ["homeRuns", "Home Runs"], ["walks", "Walks"], ["strikeouts", "Strikeouts"], ["outs", "Other Outs"], ["fouls", "Fouls"], ["plateAppearances", "Plate Appearances"]],
