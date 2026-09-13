@@ -26,6 +26,7 @@ body {
 
 .navbar {
     background: var(--navy);
+    border-bottom: 4px solid var(--gold);
     padding: 16px 0;
 }
 
@@ -132,7 +133,7 @@ body {
 }
 
 .section-dark {
-    background: var(--navy);
+    background: linear-gradient(135deg, #000000, #1f0308);
     color: var(--white);
 }
 
