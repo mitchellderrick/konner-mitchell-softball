@@ -79,6 +79,16 @@
                 Lafayette Youth Softball Club
             </p>
 
+            <div class="hero-photo-wrap">
+                <img id="profilePhoto" alt="Konner Mitchell softball profile photo" hidden>
+                <div id="profilePhotoPlaceholder" class="profile-photo-placeholder" aria-label="Profile photo coming soon">KM</div>
+            </div>
+            <div class="photo-controls">
+                <button id="changePhotoButton" class="change-photo-button" type="button">Change Profile Photo</button>
+                <input id="photoFile" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+                <p id="photoMessage" class="photo-message" aria-live="polite"></p>
+            </div>
+
             <div class="hero-buttons">
                 <a href="#profile" class="btn btn-softball btn-lg">
                     View Player Profile
@@ -102,11 +112,6 @@
                         This profile will continue to grow as new information,
                         statistics, photos, and videos become available.
                     </p>
-                </div>
-
-                <div class="profile-photo-wrap">
-                    <img id="profilePhoto" src="images/konner-profile.jpg" alt="Konner Mitchell softball profile photo" hidden>
-                    <div id="profilePhotoPlaceholder" class="profile-photo-placeholder" aria-label="Profile photo coming soon">KM</div>
                 </div>
 
                 <div class="row g-4">
